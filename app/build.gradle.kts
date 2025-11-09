@@ -25,7 +25,7 @@ android {
                     lineas.forEach {
                         val map = it.split("=")
 
-                        print("[export] : " + map[0] + "=" + map[1])
+                        print("[export] : " + map[0] + "=" + map[1] + '\n')
                         buildConfigField("String", map[0], "\"" + map[1] +"\"")
                     }
                 }
