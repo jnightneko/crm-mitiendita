@@ -1,16 +1,26 @@
 package org.wmd;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.wmd.wapp.Page;
+import org.wmd.wapp.WAppClient;
+
 public class MainActivity extends AppCompatActivity {
 
+    private WebView myWebView;
+
     @Override
+    @SuppressLint("SetJavaScriptEnabled")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -20,5 +30,22 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        myWebView = findViewById(R.id.webview);
+        WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        myWebView.setWebViewClient(new WAppClient(this));
+        myWebView.loadUrl(Page.ROOT_URL);
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (myWebView.canGoBack()) {
+                    myWebView.goBack();
+                }
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(callback);
     }
 }

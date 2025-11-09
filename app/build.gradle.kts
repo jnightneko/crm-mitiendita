@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.webkit)
 
     implementation(libs.appcompat)
     implementation(libs.material)
