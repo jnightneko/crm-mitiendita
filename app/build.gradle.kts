@@ -1,3 +1,5 @@
+import java.io.File
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -14,6 +16,23 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val ruta = rootProject.file(".env")
+        if (ruta.exists()) {
+            try {
+                //noinspection WrongGradleMethod
+                File(".env").useLines { lineas ->
+                    lineas.forEach {
+                        val map = it.split("=")
+
+                        print("[export] : " + map[0] + "=" + map[1])
+                        buildConfigField("String", map[0], "\"" + map[1] +"\"")
+                    }
+                }
+            } catch (ignored: Exception) {
+
+            }
+        }
     }
 
     buildTypes {
@@ -28,6 +47,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 

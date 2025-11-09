@@ -2,6 +2,8 @@ package org.wmd.wapp;
 
 import android.webkit.WebResourceRequest;
 
+import org.wmd.sys.Configuration;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,16 +11,12 @@ import java.util.List;
 public class Page {
 
     private static final List<String> URLS;
-    public static String ROOT_URL;
+    public static final String ROOT_URL;
     public static String ROOT_HOST;
 
     static {
         URLS = new ArrayList<>();
-        ROOT_URL = System.getenv("WEB_APP");
-
-        if (ROOT_URL == null || ROOT_URL.isEmpty()) {
-            ROOT_URL = "https://virtual.mesoamericana.edu.gt/";
-        }
+        ROOT_URL = Configuration.WEB_APP.get();
 
         try {
             URI uri = new URI(ROOT_URL);

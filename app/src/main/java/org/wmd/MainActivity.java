@@ -12,7 +12,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import org.wmd.wapp.Page;
+import com.onesignal.Continue;
+import com.onesignal.OneSignal;
+import com.onesignal.debug.LogLevel;
+
+import org.wmd.sys.Configuration;
 import org.wmd.wapp.WAppClient;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,12 +35,18 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        if (Configuration.ONESIGNAL_ENABLED.get(false)) {
+            OneSignal.getDebug().setLogLevel(LogLevel.VERBOSE);
+            OneSignal.initWithContext(this, Configuration.ONESIGNAL_APP_ID.get());
+            OneSignal.getNotifications().requestPermission(false, Continue.none());
+        }
+
         myWebView = findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
         myWebView.setWebViewClient(new WAppClient(this));
-        myWebView.loadUrl(Page.ROOT_URL);
+        myWebView.loadUrl(Configuration.WEB_APP.get());
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
