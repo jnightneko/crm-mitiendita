@@ -33,6 +33,7 @@ android {
 
 dependencies {
     implementation(libs.webkit)
+    implementation(libs.onesignal)
 
     implementation(libs.appcompat)
     implementation(libs.material)
