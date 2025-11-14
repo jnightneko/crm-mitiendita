@@ -2,6 +2,7 @@ package org.wmd;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setDomStorageEnabled(true);
         webSettings.setJavaScriptEnabled(true);
 
-        myWebView.setWebViewClient(new WAppClient(this));
+        /*myWebView.setWebViewClient(new WAppClient(this));*/
+        myWebView.setWebChromeClient(new WebChromeClient());
         myWebView.loadUrl(Configuration.WEB_APP.get());
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
